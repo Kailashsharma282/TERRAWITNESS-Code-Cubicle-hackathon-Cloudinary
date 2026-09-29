@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: terrawitness-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: terrawitness
+      POSTGRES_PASSWORD: terrawitness_secure_password
+      POSTGRES_DB: terrawitness_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U terrawitness -d terrawitness_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: terrawitness-app
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://terrawitness:terrawitness_secure_password@postgres:5432/terrawitness_db?schema=public"
+      CLOUDINARY_CLOUD_NAME: "${CLOUDINARY_CLOUD_NAME:-demo}"
+      CLOUDINARY_API_KEY: "${CLOUDINARY_API_KEY:-}"
+      CLOUDINARY_API_SECRET: "${CLOUDINARY_API_SECRET:-}"
+      CLOUDINARY_UPLOAD_PRESET: "${CLOUDINARY_UPLOAD_PRESET:-}"
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "${NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME:-demo}"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+      ENABLE_DEMO_SEED: "true"
+
+volumes:
+  pgdata:

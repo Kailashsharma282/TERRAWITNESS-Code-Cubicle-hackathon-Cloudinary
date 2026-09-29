@@ -1,0 +1,214 @@
+// TerraWitness Production PostgreSQL Schema
+// Used when deploying to Supabase, Neon, AWS RDS, GCP Cloud SQL, or Docker Postgres
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id        String    @id @default(cuid())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  users     User[]
+  projects  Project[]
+}
+
+model User {
+  id             String       @id @default(cuid())
+  organizationId String
+  name           String
+  email          String       @unique
+  role           String       @default("REVIEWER") // ADMIN, PROJECT_MANAGER, FIELD_WORKER, REVIEWER, VIEWER
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  reviews        Review[]
+}
+
+model Project {
+  id                  String               @id @default(cuid())
+  organizationId      String
+  name                String
+  description         String
+  category            String               // Reforestation, Solar, Water, Waste Management, Disaster Recovery, Infrastructure, Agriculture, Biodiversity, Clean Energy, Other
+  country             String
+  region              String
+  site                String
+  startDate           DateTime
+  targetDate          DateTime?
+  status              String               @default("ACTIVE") // ACTIVE, UNDER_REVIEW, VERIFIED, ARCHIVED
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  organization        Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  assets              EvidenceAsset[]
+  relations           EvidenceRelation[]
+  provenanceEvents    ProvenanceEvent[]
+  impactObservations  ImpactObservation[]
+  stories             Story[]
+}
+
+model EvidenceAsset {
+  id                 String             @id @default(cuid()) // EV-XXXX format or cuid
+  projectId          String
+  cloudinaryAssetId  String?
+  cloudinaryPublicId String?
+  secureUrl          String             // Delivery URL
+  originalFilename   String?
+  resourceType       String             @default("image") // image, video, raw
+  assetType          String             // BEFORE, AFTER, PROGRESS, SUPPORTING, DOCUMENT, VIDEO
+  sha256             String             // Cryptographic fingerprint
+  phash              String?            // Perceptual hash (64-bit hex)
+  dhash              String?            // Difference hash (64-bit hex)
+  fileSize           Int?               // in bytes
+  width              Int?
+  height             Int?
+  format             String?
+  captureTimestamp   DateTime?
+  uploadTimestamp    DateTime           @default(now())
+  gpsLat             Float?
+  gpsLon             Float?
+  cameraMake         String?
+  cameraModel        String?
+  softwareMetadata   String?
+  metadataJson       String?            // Raw/normalized EXIF & hardware metadata
+  tagsJson           String?            // Cloudinary & AI tags array
+  contextJson        String?            // Contextual metadata
+  integrityStatus    String             @default("INTACT") // INTACT, DERIVED, UNVERIFIED, REVIEW_REQUIRED, INTEGRITY_FAILURE
+  reviewStatus       String             @default("PENDING") // PENDING, CONFIRMED, REJECTED, INCONCLUSIVE
+  parentAssetId      String?            // For derived assets
+  transformationSpec String?            // If derived, exact transformation spec applied
+  isSynthetic        Boolean            @default(false)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  project            Project            @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  provenanceEvents   ProvenanceEvent[]
+  analysisRuns       AnalysisRun[]
+  reviews            Review[]
+  beforeRelations    EvidenceRelation[] @relation("BeforeAsset")
+  afterRelations     EvidenceRelation[] @relation("AfterAsset")
+  embeddings         Embedding[]
+}
+
+model EvidenceRelation {
+  id                 String              @id @default(cuid())
+  projectId          String
+  beforeAssetId      String
+  afterAssetId       String
+  relationType       String              @default("BEFORE_AFTER_PAIR")
+  pairConfidence     Float               @default(1.0)
+  spatialDriftMeters Float?
+  temporalGapDays    Float?
+  alignmentQuality   Float?
+  changeScore        Float?              // Normalized visible change score (0 - 100%)
+  changeDetailsJson  String?             // Detailed change metrics breakdown
+  createdBy          String              @default("system")
+  createdAt          DateTime            @default(now())
+  project            Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  beforeAsset        EvidenceAsset       @relation("BeforeAsset", fields: [beforeAssetId], references: [id], onDelete: Cascade)
+  afterAsset         EvidenceAsset       @relation("AfterAsset", fields: [afterAssetId], references: [id], onDelete: Cascade)
+  impactObservations ImpactObservation[]
+}
+
+model ProvenanceEvent {
+  id               String         @id @default(cuid())
+  projectId        String
+  assetId          String?
+  eventType        String         // UPLOADED, REGISTERED, HASHED, METADATA_EXTRACTED, AI_ANALYZED, PAIRED, ALIGNED, REVIEWED, DERIVED, EXPORTED
+  actorId          String         // user ID or "system"
+  actorRole        String?
+  timestamp        DateTime       @default(now())
+  payloadJson      String         // Canonical JSON payload
+  previousHash     String         // Hash of preceding event in project sequence, or "GENESIS"
+  eventHash        String         // SHA256(previousHash + eventType + canonicalJson(payload) + timestamp + actorId + assetHash)
+  sequenceNumber   Int
+  project          Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  asset            EvidenceAsset? @relation(fields: [assetId], references: [id], onDelete: SetNull)
+}
+
+model AnalysisRun {
+  id                   String        @id @default(cuid())
+  assetId              String
+  analysisType         String        // CLOUDINARY_TAGS, SCENE_UNDERSTANDING, SSIM_CHANGE, HOMOGRAPHY_ALIGNMENT, VEGETATION_INDEX, SOLAR_DETECTION
+  provider             String        // Cloudinary, OpenCV_Engine, Internal_Deterministic, External_AI
+  model                String?
+  inputHash            String
+  rawResultJson        String
+  normalizedResultJson String
+  confidence           Float         @default(1.0)
+  createdAt            DateTime      @default(now())
+  asset                EvidenceAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+}
+
+model ImpactObservation {
+  id          String            @id @default(cuid())
+  projectId   String
+  relationId  String?
+  category    String            // VEGETATION, SOLAR, WATER, INFRASTRUCTURE, WASTE, GENERIC
+  metric      String            // e.g. "visible_vegetation_coverage_delta", "solar_panel_array_detected"
+  value       Float?
+  unit        String?           // "%", "percentage points", "count", "boolean"
+  description String
+  method      String            // "ExG index + morphological thresholding", "semantic object analysis"
+  confidence  Float             @default(0.85)
+  source      String            // "OpenCV Heuristic + Cloudinary AI"
+  createdAt   DateTime          @default(now())
+  project     Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  relation    EvidenceRelation? @relation(fields: [relationId], references: [id], onDelete: SetNull)
+}
+
+model Review {
+  id         String        @id @default(cuid())
+  assetId    String
+  reviewerId String
+  decision   String        // CONFIRMED, REJECTED, REQUEST_REVIEW, INCONCLUSIVE
+  reason     String
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  asset      EvidenceAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  reviewer   User          @relation(fields: [reviewerId], references: [id], onDelete: Cascade)
+}
+
+model Story {
+  id                    String       @id @default(cuid())
+  projectId             String
+  title                 String
+  narrativeText         String?
+  status                String       @default("DRAFT") // DRAFT, COMPILED, PUBLISHED
+  storyboardJson        String       // Structured scenes with citations
+  generatedVideoAssetId String?
+  videoDeliveryUrl      String?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+  project               Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  scenes                StoryScene[]
+}
+
+model StoryScene {
+  id                 String   @id @default(cuid())
+  storyId            String
+  sequence           Int
+  sceneType          String   // PROBLEM, INITIAL_EVIDENCE, INTERVENTION, PROGRESS, VERIFIED_CHANGE
+  assetIds           String   // JSON array of asset IDs
+  title              String
+  text               String   // Narrative text with citations like [EV-0102]
+  duration           Float    @default(5.0) // duration in seconds
+  evidenceReferences String   // JSON array of verified claim-to-evidence mappings
+  story              Story    @relation(fields: [storyId], references: [id], onDelete: Cascade)
+}
+
+model Embedding {
+  id           String        @id @default(cuid())
+  assetId      String
+  documentText String
+  embedding    String?       // JSON array or pgvector representation
+  provider     String        @default("deterministic-fallback")
+  model        String?
+  createdAt    DateTime      @default(now())
+  asset        EvidenceAsset @relation(fields: [assetId], references: [id], onDelete: Cascade)
+}

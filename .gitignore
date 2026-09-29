@@ -1,0 +1,48 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Next.js build output
+/.next/
+/out/
+
+# Production builds
+/build
+/dist
+
+# Environment variable files (Keep secrets safe!)
+.env
+.env*.local
+.env.production
+.env.vercel
+.env.render
+
+# Keep example files tracked
+!.env.example
+!.env.production.example
+
+# Database files
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+/prisma/dev.db
+/prisma/dev.db-journal
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Vercel deployment cache
+.vercel
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# TypeScript declaration cache
+*.tsbuildinfo
+next-env.d.ts
