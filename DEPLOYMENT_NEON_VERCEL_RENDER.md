@@ -161,7 +161,7 @@ Render offers two deployment methods: **Blueprint (render.yaml)** or **Manual We
    - **Region**: `Oregon (US West)` or `Ohio (US East)` (closest to Neon)
    - **Build Command**:
      ```bash
-     npm run render-build
+     npm install && npm run render-build
      ```
      *(This automatically runs `prepare-prisma.mjs`, synchronizes the Neon database tables, and executes `next build`)*
    - **Start Command**:

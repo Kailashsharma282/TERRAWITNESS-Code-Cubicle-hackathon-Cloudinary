@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "node scripts/prepare-prisma.mjs && next build",
     "vercel-build": "node scripts/prepare-prisma.mjs && next build",
-    "render-build": "node scripts/prepare-prisma.mjs && prisma db push --accept-data-loss && next build",
+    "render-build": "node scripts/prepare-prisma.mjs && npx prisma db push --accept-data-loss && next build",
     "start": "next start",
     "lint": "eslint src",
     "test": "tsx scripts/test-engine.mjs",

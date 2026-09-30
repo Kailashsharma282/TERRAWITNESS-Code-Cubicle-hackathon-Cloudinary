@@ -44,8 +44,11 @@ if (fs.existsSync(targetSchemaPath)) {
     fs.copyFileSync(targetSchemaPath, "prisma/schema.prisma");
 
     console.log("[TerraWitness] Generating Prisma Client...");
+    const prismaCmd = (fs.existsSync("./node_modules/.bin/prisma") || fs.existsSync("./node_modules/prisma"))
+      ? "npx --no-install prisma generate"
+      : "npx prisma generate";
     try {
-      execSync("npx prisma generate", { stdio: "inherit" });
+      execSync(prismaCmd, { stdio: "inherit" });
       console.log("[TerraWitness] Prisma Client generated successfully.");
     } catch (err) {
       console.warn("[TerraWitness] Notice: prisma generate encountered a warning or lock (common on Windows if dev server is running):", err.message);
@@ -54,8 +57,11 @@ if (fs.existsSync(targetSchemaPath)) {
     console.log("[TerraWitness] Schema already matches target environment. Checking Prisma client...");
     if (!fs.existsSync("node_modules/.prisma/client")) {
       console.log("[TerraWitness] Generating Prisma Client...");
+      const prismaCmd = (fs.existsSync("./node_modules/.bin/prisma") || fs.existsSync("./node_modules/prisma"))
+        ? "npx --no-install prisma generate"
+        : "npx prisma generate";
       try {
-        execSync("npx prisma generate", { stdio: "inherit" });
+        execSync(prismaCmd, { stdio: "inherit" });
       } catch (err) {
         console.warn("[TerraWitness] Prisma generate notice:", err.message);
       }
