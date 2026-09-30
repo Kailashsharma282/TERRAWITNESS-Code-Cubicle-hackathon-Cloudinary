@@ -1,0 +1,67 @@
+1
+00:00:00,500 --> 00:00:05,800
+A before-and-after photo can show change. But can it prove what happened?
+
+2
+00:00:06,000 --> 00:00:11,500
+TerraWitness turns sustainability media into traceable, evidence-grade impact records.
+
+3
+00:00:12,500 --> 00:00:19,800
+Real field evidence is messy. Cameras move, metadata disappears, and media can become disconnected from the event it was meant to document.
+
+4
+00:00:30,500 --> 00:00:37,200
+TerraWitness starts with Cloudinary as the media layer.
+
+5
+00:00:37,500 --> 00:00:46,000
+Once evidence arrives, the platform registers the asset and builds its own evidence record around it.
+
+6
+00:00:55,500 --> 00:01:03,800
+Instead of comparing two images blindly, TerraWitness first evaluates alignment,
+
+7
+00:01:04,000 --> 00:01:12,500
+then calculates visible change within the reliably comparable region.
+
+8
+00:01:20,500 --> 00:01:27,500
+Every important observation stays connected to its source.
+
+9
+00:01:27,800 --> 00:01:36,500
+You can inspect the metadata, the analysis, the confidence, and the evidence behind the conclusion.
+
+10
+00:01:43,500 --> 00:01:50,500
+The differentiator is chain of custody. TerraWitness records evidence events in a cryptographic hash chain,
+
+11
+00:01:50,800 --> 00:01:58,500
+creating an auditable history of what the platform received, analyzed, reviewed, and exported.
+
+12
+00:01:58,800 --> 00:02:04,500
+It is not a blockchain, and it does not by itself prove camera-original authenticity.
+
+13
+00:02:05,500 --> 00:02:14,500
+That evidence can then be discovered across the project through semantic and metadata-aware search.
+
+14
+00:02:25,500 --> 00:02:34,000
+Once evidence is reviewed, TerraWitness turns the same evidence chain into a donor-ready story,
+
+15
+00:02:34,200 --> 00:02:42,500
+without disconnecting the narrative from its underlying sources.
+
+16
+00:02:47,500 --> 00:02:54,500
+The media doesn't just show change. It testifies to it.
+
+17
+00:02:55,000 --> 00:02:59,500
+TerraWitness · Code Cubicle 6.0 · Cloudinary Track

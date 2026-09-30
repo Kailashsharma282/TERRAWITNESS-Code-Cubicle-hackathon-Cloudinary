@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -20,6 +21,11 @@ import {
 
 export function Navigation() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navItems = [
     { label: "Control Room", href: "/dashboard", icon: Layers },
@@ -38,27 +44,29 @@ export function Navigation() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-[#232a36] bg-[#0b0d11]/95 backdrop-blur">
       {/* Top micro-strip for mission control telemetry */}
-      <div className="flex h-8 items-center justify-between border-b border-[#1b212b] px-4 text-[11px] font-mono text-zinc-400">
-        <div className="flex items-center gap-3">
+      <div className="flex h-8 items-center justify-between border-b border-[#1b212b] px-4 text-[11px] font-mono text-zinc-400 overflow-x-hidden">
+        <div className="flex items-center gap-3 shrink-0">
           <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
             SYSTEM OPERATIONAL
           </span>
-          <span className="text-zinc-600">|</span>
-          <span className="text-zinc-400">PROVENANCE LEDGER: <span className="text-zinc-200">ACTIVE SHA-256</span></span>
-          <span className="text-zinc-600">|</span>
-          <span className="text-zinc-400">MEDIA INFRASTRUCTURE: <span className="text-cyan-400">CLOUDINARY</span></span>
+          <span className="text-zinc-600 hidden md:inline">|</span>
+          <span className="text-zinc-400 hidden md:inline">PROVENANCE LEDGER: <span className="text-zinc-200">ACTIVE SHA-256</span></span>
+          <span className="text-zinc-600 hidden sm:inline">|</span>
+          <span className="text-zinc-400 hidden sm:inline">MEDIA INFRASTRUCTURE: <span className="text-cyan-400">CLOUDINARY</span></span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 shrink-0">
           <Link
             href="/evidence/ingest"
             className="flex items-center gap-1 text-zinc-300 hover:text-white transition-colors"
           >
             <Radio className="h-3 w-3 text-emerald-400" />
-            FIELD INGEST WORKSPACE
+            <span className="hidden xs:inline">FIELD INGEST</span>
           </Link>
           <span className="text-zinc-600">|</span>
-          <span className="text-zinc-500">UTC {new Date().toISOString().slice(11, 16)}</span>
+          <span className="text-zinc-500" suppressHydrationWarning>
+            UTC {mounted ? new Date().toISOString().slice(11, 16) : "--:--"}
+          </span>
         </div>
       </div>
 
