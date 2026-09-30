@@ -12,6 +12,7 @@ import {
   AlertTriangle,
   Layers,
 } from "lucide-react";
+import { EvidenceImage } from "@/components/evidence-image";
 
 export default function ComparisonsCatalogPage() {
   const [relations, setRelations] = useState<any[]>([]);
@@ -79,8 +80,10 @@ export default function ComparisonsCatalogPage() {
 
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
-                    <img
+                    <EvidenceImage
                       src={rel.beforeAsset?.secureUrl}
+                      assetId={rel.beforeAsset?.id}
+                      assetType={rel.beforeAsset?.assetType}
                       alt="Before"
                       className="aspect-video w-full rounded object-cover border border-[#232a36] bg-black"
                     />
@@ -90,8 +93,10 @@ export default function ComparisonsCatalogPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <img
+                    <EvidenceImage
                       src={rel.afterAsset?.secureUrl}
+                      assetId={rel.afterAsset?.id}
+                      assetType={rel.afterAsset?.assetType}
                       alt="After"
                       className="aspect-video w-full rounded object-cover border border-[#232a36] bg-black"
                     />

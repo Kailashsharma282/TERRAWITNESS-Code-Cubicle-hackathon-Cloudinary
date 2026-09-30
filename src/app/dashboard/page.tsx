@@ -18,6 +18,7 @@ import {
   Layers,
   Sparkles,
 } from "lucide-react";
+import { EvidenceImage } from "@/components/evidence-image";
 
 interface Project {
   id: string;
@@ -274,8 +275,10 @@ export default function DashboardPage() {
                 {/* Before Asset */}
                 <div className="space-y-2">
                   <div className="relative aspect-video rounded overflow-hidden border border-[#232a36] bg-black">
-                    <img
+                    <EvidenceImage
                       src={primaryRelation.beforeAsset.secureUrl}
+                      assetId={primaryRelation.beforeAsset.id}
+                      assetType={primaryRelation.beforeAsset.assetType}
                       alt="Baseline capture"
                       className="h-full w-full object-cover"
                     />
@@ -292,8 +295,10 @@ export default function DashboardPage() {
                 {/* After Asset */}
                 <div className="space-y-2">
                   <div className="relative aspect-video rounded overflow-hidden border border-[#232a36] bg-black">
-                    <img
+                    <EvidenceImage
                       src={primaryRelation.afterAsset.secureUrl}
+                      assetId={primaryRelation.afterAsset.id}
+                      assetType={primaryRelation.afterAsset.assetType}
                       alt="Follow-up capture"
                       className="h-full w-full object-cover"
                     />
@@ -358,8 +363,10 @@ export default function DashboardPage() {
                 >
                   <div className="flex items-center gap-3">
                     <span className="font-mono text-xs text-zinc-500">#{String(idx + 1).padStart(2, "0")}</span>
-                    <img
+                    <EvidenceImage
                       src={ast.secureUrl}
+                      assetId={ast.id}
+                      assetType={ast.assetType}
                       alt={ast.id}
                       className="h-10 w-14 object-cover rounded border border-[#232a36]"
                     />

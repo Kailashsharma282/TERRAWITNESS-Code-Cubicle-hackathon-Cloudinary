@@ -16,6 +16,7 @@ import {
   FileCheck2,
   Eye,
 } from "lucide-react";
+import { EvidenceImage } from "@/components/evidence-image";
 
 export default function StoryCompilerPage() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -144,8 +145,10 @@ export default function StoryCompilerPage() {
               {/* Media Player Container */}
               <div className="relative aspect-video rounded overflow-hidden border border-[#232a36] bg-black flex items-center justify-center">
                 {currentScene?.primaryMediaUrl ? (
-                  <img
+                  <EvidenceImage
                     src={currentScene.primaryMediaUrl}
+                    assetId={currentScene?.assetIds?.[0]}
+                    label={currentScene.title}
                     alt={currentScene.title}
                     className="h-full w-full object-cover transition-opacity duration-300"
                   />

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use } from "react";
 import Link from "next/link";
+import { EvidenceImage } from "@/components/evidence-image";
 import {
   GitCompare,
   ArrowLeft,
@@ -239,8 +240,11 @@ export default function ForensicComparisonPage({
           {mode === "SLIDER" && (
             <div className="relative h-full min-h-[540px] w-full">
               {/* After Image (Full background) */}
-              <img
+              <EvidenceImage
                 src={after.secureUrl}
+                assetId={after.id}
+                assetType={after.assetType}
+                label="Follow-up Intervention State"
                 alt="After"
                 className="absolute inset-0 h-full w-full object-cover"
               />
@@ -253,8 +257,11 @@ export default function ForensicComparisonPage({
                 className="absolute inset-0 overflow-hidden"
                 style={{ width: `${sliderPos}%` }}
               >
-                <img
+                <EvidenceImage
                   src={before.secureUrl}
+                  assetId={before.id}
+                  assetType={before.assetType}
+                  label="Baseline Degraded State"
                   alt="Before"
                   className="absolute inset-0 h-full w-full object-cover max-w-none"
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -290,8 +297,10 @@ export default function ForensicComparisonPage({
           {mode === "SIDE_BY_SIDE" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 h-full min-h-[540px]">
               <div className="relative border-r border-[#232a36]">
-                <img
+                <EvidenceImage
                   src={before.secureUrl}
+                  assetId={before.id}
+                  assetType={before.assetType}
                   alt="Before"
                   className="h-full w-full object-cover"
                 />
@@ -300,8 +309,10 @@ export default function ForensicComparisonPage({
                 </div>
               </div>
               <div className="relative">
-                <img
+                <EvidenceImage
                   src={after.secureUrl}
+                  assetId={after.id}
+                  assetType={after.assetType}
                   alt="After"
                   className="h-full w-full object-cover"
                 />
@@ -315,13 +326,17 @@ export default function ForensicComparisonPage({
           {/* 3. FADE MODE */}
           {mode === "FADE" && (
             <div className="relative h-full min-h-[540px] w-full">
-              <img
+              <EvidenceImage
                 src={before.secureUrl}
+                assetId={before.id}
+                assetType={before.assetType}
                 alt="Before"
                 className="absolute inset-0 h-full w-full object-cover"
               />
-              <img
+              <EvidenceImage
                 src={after.secureUrl}
+                assetId={after.id}
+                assetType={after.assetType}
                 alt="After"
                 className="absolute inset-0 h-full w-full object-cover transition-opacity duration-150"
                 style={{ opacity: fadeOpacity / 100 }}
@@ -348,13 +363,17 @@ export default function ForensicComparisonPage({
           {mode === "DIFFERENCE" && (
             <div className="relative h-full min-h-[540px] w-full bg-black">
               {/* Composite difference filter */}
-              <img
+              <EvidenceImage
                 src={before.secureUrl}
+                assetId={before.id}
+                assetType={before.assetType}
                 alt="Before"
                 className="absolute inset-0 h-full w-full object-cover filter contrast-125"
               />
-              <img
+              <EvidenceImage
                 src={after.secureUrl}
+                assetId={after.id}
+                assetType={after.assetType}
                 alt="After"
                 className="absolute inset-0 h-full w-full object-cover mix-blend-difference filter invert"
               />
@@ -367,8 +386,10 @@ export default function ForensicComparisonPage({
           {/* 5. HEATMAP MODE */}
           {mode === "HEATMAP" && (
             <div className="relative h-full min-h-[540px] w-full">
-              <img
+              <EvidenceImage
                 src={after.secureUrl}
+                assetId={after.id}
+                assetType={after.assetType}
                 alt="After"
                 className="absolute inset-0 h-full w-full object-cover"
               />

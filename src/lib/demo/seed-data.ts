@@ -63,7 +63,7 @@ export async function seedDemoData() {
       projectId: proj1.id,
       cloudinaryPublicId: "terrawitness_demo/mangrove_before",
       secureUrl:
-        "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80",
+        "https://res.cloudinary.com/jfsfulbk/image/upload/v1790780609/terrawitness_demo/mangrove_before.jpg",
       originalFilename: "field_capture_baseline_plot_b_001.jpg",
       resourceType: "image",
       assetType: "BEFORE",
@@ -109,7 +109,7 @@ export async function seedDemoData() {
       projectId: proj1.id,
       cloudinaryPublicId: "terrawitness_demo/mangrove_after",
       secureUrl:
-        "https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=1200&q=80",
+        "https://res.cloudinary.com/jfsfulbk/image/upload/v1790780610/terrawitness_demo/mangrove_after.jpg",
       originalFilename: "field_capture_followup_plot_b_001.jpg",
       resourceType: "image",
       assetType: "AFTER",
@@ -155,7 +155,7 @@ export async function seedDemoData() {
       projectId: proj1.id,
       cloudinaryPublicId: "terrawitness_demo/mangrove_progress",
       secureUrl:
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
+        "https://res.cloudinary.com/jfsfulbk/image/upload/v1790780611/terrawitness_demo/mangrove_progress.jpg",
       originalFilename: "field_capture_nursery_planting_001.jpg",
       resourceType: "image",
       assetType: "PROGRESS",
@@ -324,7 +324,7 @@ export async function seedDemoData() {
       projectId: proj2.id,
       cloudinaryPublicId: "terrawitness_demo/solar_before",
       secureUrl:
-        "https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=1200&q=80",
+        "https://res.cloudinary.com/jfsfulbk/image/upload/v1790780612/terrawitness_demo/solar_before.jpg",
       originalFilename: "substation_rooftop_empty_baseline.jpg",
       resourceType: "image",
       assetType: "BEFORE",
@@ -355,7 +355,7 @@ export async function seedDemoData() {
       projectId: proj2.id,
       cloudinaryPublicId: "terrawitness_demo/solar_after",
       secureUrl:
-        "https://images.unsplash.com/photo-1508873696983-2df5293cb325?auto=format&fit=crop&w=1200&q=80",
+        "https://res.cloudinary.com/jfsfulbk/image/upload/v1790780613/terrawitness_demo/solar_after.jpg",
       originalFilename: "substation_rooftop_solar_array_installed.jpg",
       resourceType: "image",
       assetType: "AFTER",

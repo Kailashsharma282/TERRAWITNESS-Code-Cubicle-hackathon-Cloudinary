@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   FileCheck2,
 } from "lucide-react";
+import { EvidenceImage } from "@/components/evidence-image";
 
 export default function EvidenceSearchPage() {
   const [query, setQuery] = useState<string>("mangrove canopy");
@@ -152,8 +153,9 @@ export default function EvidenceSearchPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 items-center">
                 <div className="sm:col-span-1">
-                  <img
+                  <EvidenceImage
                     src={res.secureUrl}
+                    assetId={res.assetId}
                     alt={res.assetId}
                     className="aspect-video w-full rounded object-cover border border-[#232a36] bg-black"
                   />

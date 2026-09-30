@@ -18,6 +18,7 @@ import {
   Eye,
   Layers,
 } from "lucide-react";
+import { EvidenceImage } from "@/components/evidence-image";
 
 export default function EvidenceDetailPage({
   params,
@@ -230,8 +231,10 @@ export default function EvidenceDetailPage({
             </div>
 
             <div className="relative rounded overflow-hidden border border-[#232a36] bg-black aspect-video flex items-center justify-center">
-              <img
+              <EvidenceImage
                 src={asset.secureUrl}
+                assetId={asset.id}
+                assetType={asset.assetType}
                 alt={asset.id}
                 className="max-h-[460px] w-full object-contain"
               />

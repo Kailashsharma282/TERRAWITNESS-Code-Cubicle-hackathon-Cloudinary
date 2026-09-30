@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { EvidenceImage } from "@/components/evidence-image";
 import {
   ShieldCheck,
   ArrowRight,
@@ -118,8 +119,11 @@ export default function LandingPage() {
         <div className="relative h-[380px] sm:h-[480px] w-full overflow-hidden rounded border border-[#232a36] select-none bg-black">
           {/* AFTER Image (Background) */}
           <div className="absolute inset-0">
-            <img
-              src="https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=1200&q=80"
+            <EvidenceImage
+              src="https://res.cloudinary.com/jfsfulbk/image/upload/v1790780610/terrawitness_demo/mangrove_after.jpg"
+              fallbackSrc="/evidence/mangrove_after.jpg"
+              assetId="EV-MANG-0102"
+              label="Mangrove Canopy Restored"
               alt="Follow-up Restoration State"
               className="h-full w-full object-cover"
             />
@@ -133,8 +137,11 @@ export default function LandingPage() {
             className="absolute inset-0 overflow-hidden"
             style={{ width: `${sliderPos}%` }}
           >
-            <img
-              src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80"
+            <EvidenceImage
+              src="https://res.cloudinary.com/jfsfulbk/image/upload/v1790780609/terrawitness_demo/mangrove_before.jpg"
+              fallbackSrc="/evidence/mangrove_before.jpg"
+              assetId="EV-MANG-0101"
+              label="Baseline Degraded Mudflat"
               alt="Baseline Degraded State"
               className="absolute inset-0 h-full w-[100vw] max-w-none object-cover"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}

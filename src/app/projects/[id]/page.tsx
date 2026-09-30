@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Eye,
 } from "lucide-react";
+import { EvidenceImage } from "@/components/evidence-image";
 
 export default function ProjectDetailPage({
   params,
@@ -170,8 +171,10 @@ export default function ProjectDetailPage({
               className="forensic-panel rounded-md p-3 space-y-2 hover:border-zinc-500 transition-colors"
             >
               <div className="relative aspect-video rounded overflow-hidden border border-[#232a36] bg-black">
-                <img
+                <EvidenceImage
                   src={ast.secureUrl}
+                  assetId={ast.id}
+                  assetType={ast.assetType}
                   alt={ast.id}
                   className="h-full w-full object-cover"
                 />

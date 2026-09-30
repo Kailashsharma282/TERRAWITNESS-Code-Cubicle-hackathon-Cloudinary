@@ -15,6 +15,7 @@ import {
   Camera,
   AlertTriangle,
 } from "lucide-react";
+import { EvidenceImage } from "@/components/evidence-image";
 
 export default function ReviewQueuePage() {
   const [queue, setQueue] = useState<any[]>([]);
@@ -174,8 +175,10 @@ export default function ReviewQueuePage() {
 
               {/* Media viewer */}
               <div className="relative aspect-video rounded overflow-hidden border border-[#232a36] bg-black flex items-center justify-center">
-                <img
+                <EvidenceImage
                   src={currentAsset.secureUrl}
+                  assetId={currentAsset.id}
+                  assetType={currentAsset.assetType}
                   alt={currentAsset.id}
                   className="max-h-[460px] w-full object-contain"
                 />

@@ -12,6 +12,7 @@ import {
   Radio,
   Eye,
 } from "lucide-react";
+import { EvidenceImage } from "@/components/evidence-image";
 
 export default function EvidenceArchivePage() {
   const [assets, setAssets] = useState<any[]>([]);
@@ -164,8 +165,10 @@ export default function EvidenceArchivePage() {
                     </td>
 
                     <td className="p-3">
-                      <img
+                      <EvidenceImage
                         src={ast.secureUrl}
+                        assetId={ast.id}
+                        assetType={ast.assetType}
                         alt={ast.id}
                         className="h-10 w-14 rounded object-cover border border-[#232a36] bg-black"
                       />
