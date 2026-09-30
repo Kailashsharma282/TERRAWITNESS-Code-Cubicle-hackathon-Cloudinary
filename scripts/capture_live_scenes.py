@@ -24,17 +24,23 @@ def capture():
 
         # 1. Scene 1: Landing Page Hero & Before/After
         print("Capturing Scene 1: Landing & Hook...", flush=True)
-        page.goto(f"{BASE_URL}/", wait_until="networkidle", timeout=15000)
-        page.wait_for_timeout(1000)
+        page.goto(f"{BASE_URL}/", wait_until="networkidle", timeout=20000)
+        page.wait_for_timeout(2000)
         page.screenshot(path=f"{OUTPUT_DIR}/scene1_landing_hero.png")
-        page.mouse.wheel(0, 400)
-        page.wait_for_timeout(800)
+        
+        # Scroll down so the interactive before/after evidence canvas is perfectly framed
+        comparison_section = page.locator("section.forensic-panel").first
+        if comparison_section.count() > 0:
+            comparison_section.scroll_into_view_if_needed()
+        else:
+            page.mouse.wheel(0, 450)
+        page.wait_for_timeout(2000)
         page.screenshot(path=f"{OUTPUT_DIR}/scene1_landing_scroll.png")
 
         # 2. Scene 2: Evidence Library / Field Capture
         print("Capturing Scene 2: Field Reality & Asset...", flush=True)
-        page.goto(f"{BASE_URL}/evidence", wait_until="networkidle", timeout=15000)
-        page.wait_for_timeout(1200)
+        page.goto(f"{BASE_URL}/evidence", wait_until="networkidle", timeout=20000)
+        page.wait_for_timeout(2000)
         page.screenshot(path=f"{OUTPUT_DIR}/scene2_evidence_list.png")
 
         # Click first asset to open detail if available
